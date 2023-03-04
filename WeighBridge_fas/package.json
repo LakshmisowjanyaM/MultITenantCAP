@@ -1,0 +1,68 @@
+{
+  "name": "WeighBridge_fas",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@sap/cds": "^6",
+    "@sap/cds-mtxs": "^1.5.1",
+    "@sap/cds-odata-v2-adapter-proxy": "^1",
+    "@sap/xssec": "^3.2.17",
+    "express": "^4",
+    "hdb": "^0.19.0",
+    "passport": "^0.6.0"
+  },
+  "devDependencies": {
+    "@sap/ux-specification": "^1.102.17",
+    "rimraf": "^3.0.2",
+    "sqlite3": "^5.0.4"
+  },
+  "scripts": {
+    "start": "cds run",
+    "watch-wb_ui5": "cds watch --open wb_ui5/webapp/index.html?sap-ui-xx-viewCache=false",
+    "undeploy": "cf undeploy WeighBridge_fas --delete-services --delete-service-keys --delete-service-brokers",
+    "build": "rimraf resources mta_archives && mbt build --mtar archive",
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
+  },
+  "engines": {
+    "node": "^16.15"
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "env": {
+      "es2020": true,
+      "node": true,
+      "jest": true,
+      "mocha": true
+    },
+    "globals": {
+      "SELECT": true,
+      "INSERT": true,
+      "UPDATE": true,
+      "DELETE": true,
+      "CREATE": true,
+      "DROP": true,
+      "CDL": true,
+      "CQL": true,
+      "CXL": true,
+      "cds": true
+    },
+    "rules": {
+      "no-console": "off",
+      "require-atomic-updates": "off"
+    }
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "kind": "hana-cloud"
+      },
+      "multitenancy": true
+    }
+  },
+  "sapux": [
+    "app/wb_ui5"
+  ]
+}

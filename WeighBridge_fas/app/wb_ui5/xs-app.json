@@ -1,0 +1,47 @@
+{
+  "welcomeFile": "/index.html",
+  "authenticationMethod": "route",
+  "routes": [
+    {
+      "source": "/v2/WeightService/(.*)$",
+      "target": "/v2/WeightService/$1",
+      "authenticationType": "xsuaa",
+      "destination": "srv-binding",
+      "csrfProtection": false,
+      "scope": [
+        "$XSAPPNAME.WeighBAppUser"
+    ]
+    },
+    {
+      "source": "^/sap/(.*)$",
+      "target": "/sap/$1",
+      "destination": "motivemindsS4Hana",
+      "authenticationType": "none",
+      "csrfProtection": false,
+      "scope": [
+        "$XSAPPNAME.WeighBAppUser"
+    ]
+    },
+    {
+      "source": "^/resources/(.*)$",
+      "target": "/resources/$1",
+      "authenticationType": "none",
+      "destination": "ui5"
+    },
+    {
+      "source": "^/test-resources/(.*)$",
+      "target": "/test-resources/$1",
+      "authenticationType": "none",
+      "destination": "ui5"
+    },
+    {
+      "source": "^(.*)$",
+      "target": "$1",
+      "service": "html5-apps-repo-rt",
+      "authenticationType": "xsuaa",
+      "scope": [
+        "$XSAPPNAME.WeighBAppUser"
+    ]
+    }
+  ]
+}

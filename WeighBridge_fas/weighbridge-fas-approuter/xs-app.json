@@ -1,0 +1,10 @@
+{
+  "authenticationMethod": "route",
+  "routes": [{
+    "source": "(.*)",
+    "scope": ["$XSAPPNAME.WeighBAppUser"],
+    "target": "/wbui5/$1",
+    "service": "html5-apps-repo-rt"
+  }],
+  "welcomeFile": "/wbui5"
+}

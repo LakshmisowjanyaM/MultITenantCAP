@@ -1,0 +1,48 @@
+{
+  "xsappname": "weighbridge_fas",
+  "tenant-mode": "shared",
+  "description": "Security profile of called application",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.mtcallback",
+      "description": "Multi Tenancy Callback Access",
+      "grant-as-authority-to-apps": [
+        "$XSAPPNAME(application, sap-provisioning, tenant-onboarding)"
+      ]
+    },
+    {
+      "name": "$XSAPPNAME.WeighBAppUser",
+      "description": "WeighBAppUser"
+    },
+    {
+      "name": "uaa.user",
+      "description": "UAA"
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "WeighBAppUser",
+      "description": "generated",
+      "scope-references": [
+        "$XSAPPNAME.WeighBAppUser"
+      ],
+      "attribute-references": []
+    },
+    {
+      "name": "Token_Exchange",
+      "description": "UAA",
+      "scope-references": [
+        "uaa.user"
+      ]
+    }
+  ],
+  "role-collections": [
+    {
+      "name": "WeighBAppRole",
+      "description": "WeighBAppRole",
+      "role-template-references": [
+        "$XSAPPNAME.WeighBAppUser"
+      ]
+    }
+  ]
+}
