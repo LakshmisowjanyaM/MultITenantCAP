@@ -1,39 +1,18 @@
-_schema-version: "3.1"
+_schema-version: '3.1'
 ID: WeighBridge_fas
 description: A simple CAP project.
 version: 1.0.0
 modules:
-  # -- db Module
-
-  - name: WeighBridge_fas-db-deployer
-    type: hdb
-    path: gen/db
-    build-parameters:
-      ignore:
-        - default-*.json
-        - .env
-        - "*node_modules*"
-        - package-lock.json
-    requires:
-      - name: WeighBridge_fas-db
-      - name: uaa_WeighBridge_fas
-    parameters:
-      buildpack: nodejs_buildpack
-      memory: 256M
-      disk-quota: 1024M
-
-  # -- srv Module
-
   - name: WeighBridge_fas-srv
     type: nodejs
     path: gen/srv
     build-parameters:
       builder: npm-ci
       ignore:
-        - default-*.json
+        - 'default-*.json'
         - .env
-        - "*node_modules*"
-        - package-lock.json 
+        - '*node_modules*'
+        - package-lock.json
     parameters:
       buildpack: nodejs_buildpack
       memory: 512M
@@ -41,35 +20,31 @@ modules:
     requires:
       - name: uaa_WeighBridge_fas
       - name: WeighBridge_fas-registry
-      - name: WeighBridge_fas-db
       - name: WeighBridge_fas_service-manager
+      - name: WeighBridge_fas-destination-service
       - name: app-api
         properties:
-          APP_PROTOCOL: ~{app-protocol}
-          APP_URI: ~{app-uri}
+          APP_PROTOCOL: '~{app-protocol}'
+          APP_URI: '~{app-uri}'
     properties:
-      SAP_JWT_TRUST_ACL: [{"clientid":"*","identityzone":"sap-provisioning"}] 
+      SAP_JWT_TRUST_ACL:
+        - clientid: '*'
+          identityzone: sap-provisioning
     provides:
       - name: srv-api
         properties:
-          srv-url: ${default-url}
+          srv-url: '${default-url}'
       - name: mtx-api
         properties:
-          mtx-url: ${default-url}
-
-  
-
-
-
-  #----- approuter Module
+          mtx-url: '${default-url}'
   - name: weighbridge-fas-approuter
     type: approuter.nodejs
     path: weighbridge-fas-approuter
     build-parameters:
       ignore:
-        - default-*.json
+        - 'default-*.json'
         - .env
-        - "*node_modules*"
+        - '*node_modules*'
         - package-lock.json
     parameters:
       disk-quota: 1024M
@@ -93,22 +68,19 @@ modules:
         group: destinations
         properties:
           name: mtx
-          url: ~{mtx-url}
+          url: '~{mtx-url}'
           timeout: 600000
       - name: WeighBridge_fas-destination-service
         group: destinations
         properties:
           forwardAuthToken: false
           name: ui5
-          url: https://ui5.sap.com
+          url: 'https://ui5.sap.com'
     provides:
       - name: app-api
         properties:
-          app-protocol: ${protocol}
-          app-uri: ${default-uri}
-
-
-
+          app-protocol: '${protocol}'
+          app-uri: '${default-uri}'
   - name: WeighBridge_fas_ui_deployer
     type: com.sap.application.content
     path: .
@@ -131,11 +103,9 @@ modules:
       builder: custom
       commands:
         - npm install
-        - npm run build:cf
-      supported-platforms:
-        []
+        - 'npm run build:cf'
+      supported-platforms: []
 resources:
-   # -- Service Manger
   - name: WeighBridge_fas_service-manager
     type: org.cloudfoundry.managed-service
     requires:
@@ -143,15 +113,11 @@ resources:
     parameters:
       service: service-manager
       service-plan: container
- 
- # --- Html repo runtime Service
   - name: WeighBridge_fas_html_repo_runtime
     type: org.cloudfoundry.managed-service
     parameters:
       service: html5-apps-repo
       service-plan: app-runtime
- 
-   # --- UAA Service
   - name: uaa_WeighBridge_fas
     type: org.cloudfoundry.managed-service
     parameters:
@@ -159,22 +125,16 @@ resources:
       service: xsuaa
       service-name: WeighBridge_fas-xsuaa-service
       service-plan: application
-
-   # --- Html-repohost Service
   - name: WeighBridge_fas_html_repo_host
     type: org.cloudfoundry.managed-service
     parameters:
       service: html5-apps-repo
       service-plan: app-host
-
-  # --- connectivity Service
   - name: WeighBridge_fas-Connectivity-service
     type: org.cloudfoundry.managed-service
     parameters:
       service: connectivity
       service-plan: lite
-  
-  # --- destination Service
   - name: WeighBridge_fas-destination-service
     type: org.cloudfoundry.managed-service
     parameters:
@@ -187,15 +147,12 @@ resources:
                 Name: ui5
                 ProxyType: Internet
                 Type: HTTP
-                URL: https://ui5.sap.com
+                URL: 'https://ui5.sap.com'
             existing_destinations_policy: update
         version: 1.0.0
       service: destination
       service-name: WeighBridge_fas-destination-service
       service-plan: lite
- 
- # -- registry Service
- 
   - name: WeighBridge_fas-registry
     type: org.cloudfoundry.managed-service
     requires:
@@ -204,25 +161,17 @@ resources:
       service: saas-registry
       service-plan: application
       config:
-        xsappname: WeighBridge_fas-test
-        appName: WeighBridge_fas-test
-        displayName: WeighBridge_fas
+        xsappname: weighbridge_fas
+        appName: weighbridge_fas
+        displayName: weighbridge_fas
         description: A simple CAP project.
-        category: 'Category'
+        category: Category
         appUrls:
-          getDependencies: ~{mtx-api/mtx-url}/-/cds/saas-provisioning/dependencies
-          onSubscription: ~{mtx-api/mtx-url}/-/cds/saas-provisioning/tenant/{tenantId}
+          getDependencies: '~{mtx-api/mtx-url}/-/cds/saas-provisioning/dependencies'
+          onSubscription: '~{mtx-api/mtx-url}/-/cds/saas-provisioning/tenant/{tenantId}'
           onSubscriptionAsync: false
           onUnSubscriptionAsync: false
           callbackTimeoutMillis: 300000
-  
-  # -- HDI container Service
-  - name: WeighBridge_fas-db
-    type: com.sap.xs.hdi-container
-    parameters:
-      service: hana
-      service-plan: hdi-shared
-
 parameters:
   deploy_mode: html5-repo
   enable-parallel-deployments: true

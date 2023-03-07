@@ -17,7 +17,11 @@
     {
       "name": "uaa.user",
       "description": "UAA"
-    }
+    },
+    {
+      "name": "$XSAPPNAME.cds.Subscriber",
+      "description": "Subscribe to applications"
+  }
   ],
   "role-templates": [
     {
@@ -44,5 +48,12 @@
         "$XSAPPNAME.WeighBAppUser"
       ]
     }
-  ]
+  ],
+  "oauth2-configuration": {
+    "token-validity": 3600,
+    "redirect-uris": [
+        "https://*-weighbridge_fas-app.cfapps.*.hana.ondemand.com/login/callback"
+    ]
+},
+"authorities": ["$XSAPPNAME.cds.Subscriber"]
 }
