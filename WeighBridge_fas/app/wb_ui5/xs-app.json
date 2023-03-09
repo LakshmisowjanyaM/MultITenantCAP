@@ -17,10 +17,7 @@
       "target": "/sap/$1",
       "destination": "motivemindsS4Hana",
       "authenticationType": "none",
-      "csrfProtection": false,
-      "scope": [
-        "$XSAPPNAME.WeighBAppUser"
-    ]
+      "csrfProtection": false
     },
     {
       "source": "^/resources/(.*)$",

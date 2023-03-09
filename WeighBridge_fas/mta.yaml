@@ -37,7 +37,7 @@ modules:
       - name: mtx-api
         properties:
           mtx-url: '${default-url}'
-  - name: weighbridge-fas-approuter
+  - name: weighbridge_fas-approuter
     type: approuter.nodejs
     path: weighbridge-fas-approuter
     build-parameters:
@@ -52,9 +52,9 @@ modules:
       keep-existing-routes: true
       appname: weighbridge_fas
       routes:
-        - route: 'https://${subdomain}-${appname}.${default-domain}'
+        - route: 'https://${subdomain}-${space}.${default-domain}'
     properties:
-      TENANT_HOST_PATTERN: '^(.*)-${appname}.${default-domain}'
+      TENANT_HOST_PATTERN: "^(.*)-${space}.${default-domain}"
     requires:
       - name: WeighBridge_fas_html_repo_runtime
       - name: uaa_WeighBridge_fas
@@ -164,8 +164,8 @@ resources:
       service: saas-registry
       service-plan: application
       config:
-        xsappname: weighbridge_fas
-        appName: weighbridge_fas
+        xsappname: ${appname}
+        appName: ${appname}
         displayName: weighbridge_fas
         description: A simple CAP project.
         category: Category

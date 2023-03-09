@@ -1,17 +1,11 @@
 {
   "authenticationMethod": "route",
-  "routes": [
+  "routes": [ 
     {
-      "source": "^/resources/(.*)$",
-      "authenticationType":"xsuaa",
-      "target": "/$1",
-      "localDir": "resources"
-    },  
-    {
-    "source": "^/wbui5/(.*)$",
+    "source": "(.*)",
     "scope": ["$XSAPPNAME.WeighBAppUser"],
     "target": "/wbui5/$1",
     "service": "html5-apps-repo-rt"
   }],
-  "welcomeFile": "/resources/index.html"
+  "welcomeFile": "/wbui5"
 }

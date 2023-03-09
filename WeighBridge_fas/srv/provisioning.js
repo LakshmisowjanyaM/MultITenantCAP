@@ -5,7 +5,7 @@ xsenv.loadEnv();
 module.exports = (service) => {
     service.on("UPDATE", "tenant", async (req, next) => {
         //var consumerSubdomain = req.body.subscribedSubdomain;
-        let tenantURL = process.env.APP_PROTOCOL + "://" + req.data.subscribedSubdomain + "-" + req.data.subscriptionAppName+".cfapps.ap10.hana.ondemand.com";  
+        let tenantURL = process.env.APP_PROTOCOL + "://" + req.data.subscribedSubdomain +"-dev.cfapps.ap10.hana.ondemand.com";  
         await next();
         return tenantURL;
     });
