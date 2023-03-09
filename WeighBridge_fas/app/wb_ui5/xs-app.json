@@ -37,11 +37,9 @@
     {
       "source": "^(.*)$",
       "target": "$1",
+      "scope": ["$XSAPPNAME.WeighBAppUser"],
       "service": "html5-apps-repo-rt",
-      "authenticationType": "xsuaa",
-      "scope": [
-        "$XSAPPNAME.WeighBAppUser"
-    ]
+      "authenticationType": "xsuaa"
     }
   ]
 }

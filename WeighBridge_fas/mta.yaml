@@ -50,8 +50,11 @@ modules:
       disk-quota: 1024M
       memory: 256M
       keep-existing-routes: true
+      appname: weighbridge_fas
+      routes:
+        - route: 'https://${subdomain}-${appname}.${default-domain}'
     properties:
-      TENANT_HOST_PATTERN: '^(.*)-${default-uri}'
+      TENANT_HOST_PATTERN: '^(.*)-${appname}.${default-domain}'
     requires:
       - name: WeighBridge_fas_html_repo_runtime
       - name: uaa_WeighBridge_fas
@@ -175,6 +178,8 @@ resources:
 parameters:
   deploy_mode: html5-repo
   enable-parallel-deployments: true
+  appname: weighbridge_fas
+  subdomain: n7mwhzx2bvczjz3l
 build-parameters:
   before-all:
     - builder: custom
